@@ -20,7 +20,7 @@ bot.on("message", msg => {
   var role = msg.guild.roles.find("name", "Raider");
 
   if (msg.author.bot && msg.content.startsWith("Reminder:")){
-    bot.channels.get("<snip>").sendMessage(role + " - Dont forget to sign for the raids. Groups are set rou$
+    bot.channels.get("<snip>").sendMessage(role + " - Dont forget to sign for the raids. Groups are set roughly one hour before the raid starts.");
     bot.channels.get("<snip>").sendMessage("If you set tentative, send a message to an officer!");
   }
 
