@@ -62,7 +62,7 @@ bot.on("message", msg => {
     }}
     for (var i = 0; i < affixArray2.length; i++) {
       if(weekNumber == affixArray2[i]) {
-        msg.channel.sendMessage("Current weeks affixes are: Bolstering, Overflowing & Tyrranical.");
+        msg.channel.sendMessage("Current weeks affixes are: Bolstering, Overflowing & Tyrannical.");
         msg.channel.sendMessage("Next week: Sanguine, Volcanic & Fortified.");
     }}
     for (var i = 0; i < affixArray3.length; i++) {
