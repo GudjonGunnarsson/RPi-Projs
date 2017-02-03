@@ -2,36 +2,40 @@ const Discord = require('discord.js');
 const bot = new Discord.Client();
 const token = '<snip>';
 var schedule = require('node-schedule');
+var rule = new schedule.RecurrenceRule();
+rule.minute = 30; rule.hour = 16; rule.dayOfWeek = 3;
+
+var executed = false;
+var schedOnce = (function() {
+  if (!executed) {
+    var j = schedule.scheduleJob(rule, function(){
+      bot.channels.get("<snip>").sendMessage("wKdW74");
+    });
+    executed = true;
+  } else return;
+});
 
 bot.on('ready', () => {
   console.log('Running!');
   bot.user.setGame("Sikk Meme m8");
-
-  var rule = new schedule.RecurrenceRule();
-  rule.minute = 30;
-  rule.hour = 16;
-  rule.dayOfWeek =[1, 3, 6];
-
-  var j = schedule.scheduleJob(rule, function(){
-    bot.channels.get("<snip>").sendMessage("wKdW74");
-  });
+  schedOnce();
 });
 
 bot.on("message", msg => {
   let prefix = "!";
-  let role = msg.guild.roles.find("name", "HNIC");
-  var mini = bot.users.get("<snip>");
+  let role = msg.guild.roles.find("name", "Raider");
 
   if (msg.author.bot && msg.content.startsWith("wKdW74")) {
     var msgArray = [];
-    msgArray.push("@role" + " - Dont forget to sign for the raids.");
-    msgArray.push("Groups are set roughly one hour before the raid starts.");
-    msgArray.push("If you set tentative, send a message to an officer!");
+    msgArray.push(role);
+    msgArray.push("```Dont forget to sign for this weeks raids.");
+    msgArray.push("If you set tentative, message an officer!```");
     setTimeout(() => {
       msg.edit("Reminder: ");
       msg.channel.sendMessage(msgArray);
     }, 100);
   }
+
   if (!msg.content.startsWith(prefix)) return;
   if (msg.author.bot) return;
 
@@ -99,29 +103,36 @@ bot.on("message", msg => {
 
   if (msg.content.startsWith(prefix + "help") || msg.content.startsWith(prefix + "info")) {
     var msgArray = [];
-    msgArray.push("Bot Commands:");
-    msgArray.push("Command                Description");
-    msgArray.push("!scrubnub <@someone>   Call someone a scrub.");
-    msgArray.push("!affixes               Shows you M+ affixes for current & next week.");
-    msgArray.push("!time                  What the servertime is currently.");
-    msgArray.push("!initiated             When bot was started.");
-    msgArray.push("!help/info             This message.");
+    msgArray.push("```Bot Commands:");
+    msgArray.push("Command - (Description)");
+    msgArray.push("!scrubnub <@someone> - (Call someone a scrub.)");
+    msgArray.push("!avatar <@someone> - (Show the full image of someones avatar.)");
+    msgArray.push("!affixes - (Shows you M+ affixes for current & next week.)");
+    msgArray.push("!time - (What the servertime is currently.)");
+    msgArray.push("!initiated - (When bot was started.)");
+    msgArray.push("!help/info - (This message.)```");
     msg.channel.sendMessage(msgArray);
   }
 
-  if (msg.content.startsWith(prefix + "test")) {
-    var messagetest = "Hello"
-    //msg.author.sendMessage(messagetest);
-    //msg.sendMessage(mini, messagetest);
-  }
-
   if (msg.content.startsWith(prefix + "initiated"))
-    msg.channel.sendMessage("Bot initiated at " + bot.readyAt + "\nAnd the current uptime is " + (Math.round(bot.uptime / (1000 * 60 * 60))) + "hrs.");
+    msg.channel.sendMessage("Bot initiated at " + bot.readyAt + "\nAnd the current uptime is roughly " + (Math.round(bo$
   if (msg.content.startsWith(prefix + "version"))
-    msg.channel.sendMessage("Version 2 - Affixes");
+    msg.channel.sendMessage("Ver. 2");
   if (msg.content.startsWith(prefix + "scrubnub")) {
+    if (msg.content == prefix + "scrubnub") {
+      msg.channel.sendMessage("No user specified. Usage: !scrubnub <@someone>");
+      return;
+    }
     let user = msg.mentions.users.first();
     msg.channel.sendMessage(user + ' is a skkkrrruubbbnub');
+  }
+  if (msg.content.startsWith(prefix + "avatar")) {
+    if (msg.content == prefix + "avatar") {
+      msg.channel.sendMessage("No user specified. Usage: !avatar <@someone>");
+      return;
+    }
+    let user = msg.mentions.users.first();
+    msg.channel.sendMessage(user.avatarURL);
   }
 });
 
